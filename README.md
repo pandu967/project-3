@@ -12,7 +12,7 @@ Process:
 	First we install vagrant and virtual box with following commands.
 		i) sudo apt-get install virtualbox
 		ii) sudo apt-get install vagrant
-		iii) vagrant init ubuntu
+		iii) vagrant init ubuntu/xenial64
 	Setting up the environment required.
 		iii) vagrant up - Launching the virtual machine
 		iv) vagrant ssh 
