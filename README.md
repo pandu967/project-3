@@ -24,7 +24,7 @@ This newsdata.sql file consists of
 	The log table includes one entry for each time a user has accessed the site.
 Use \c news to connect to database.
 running python file:
-	python log.py
+	python logorig.py
 
 
 
