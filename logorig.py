@@ -13,6 +13,8 @@ def run_query(query):
     rows = cur.fetchall()
     db.close()
     return rows
+
+
 class log:
 
     def get_top_articles(self):
@@ -43,7 +45,7 @@ class log:
             count += 1
 
 
-    def get_top_article_authors(self):
+def get_top_article_authors(self):
         """returns top 3 most popular authors"""
 
         # Build Query String
@@ -71,13 +73,14 @@ class log:
             count += 1
 
 
-    def get_days_with_errors(self):
+def get_days_with_errors(self):
         """returns days with more than 1% errors"""
 
         # Build Query String
         query = """
             SELECT total.day,
-              ROUND(((errors.error_requests*1.0) / total.requests), 3) AS percent
+              ROUND(((errors.error_requests*1.0) / total.r"
+              "equests), 3) AS percent
             FROM (
               SELECT date_trunc('day', time) "day", count(*) AS error_requests
               FROM log
@@ -90,7 +93,8 @@ class log:
               GROUP BY day
               ) AS total
             ON total.day = errors.day
-            WHERE (ROUND(((errors.error_requests*1.0) / total.requests), 3) > 0.01)
+            WHERE (ROUND(((errors.error_requests*1.0) / total.reque"
+            "sts), 3) > 0.01)
             ORDER BY percent DESC;
         """
 
@@ -103,10 +107,7 @@ class log:
             date = i[0].strftime('%B %d, %Y')
             errors = str(round(i[1]*100, 1)) + "%" + " errors"
             print(date + " -- " + errors)
-
-
-
-a=log()
+a = log()
 a.get_top_articles()
 a.get_top_article_authors()
 a.get_days_with_errors()
