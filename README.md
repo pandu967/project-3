@@ -1,32 +1,37 @@
-# project-3
-This project is all about log analysis from the given sql file.
-various things inculcated: vahrant,virtual box,psql
-Working:
-	By using the terminal we execute the python file which we write. 
-	With this whatever the data we need will be displayed in the terminal.
-	To display those data,we write various queries.
-Process:
-	Download newsdata.sql file.
-	It is a zip file.
-	Extract it and place it in the current working directory. 
-	First we install vagrant and virtual box with following commands.
-		i) sudo apt-get install virtualbox
-		ii) sudo apt-get install vagrant
-		iii) vagrant init ubuntu/xenial64
-	Setting up the environment required.
-		iii) vagrant up - Launching the virtual machine
-		iv) vagrant ssh 
-		Change directory to /vagrant and look around with ls.
-		Load the data in local database using the command:
-		psql -d news -f newsdata.sql
-This newsdata.sql file consists of
-	The authors table includes information about the authors of articles.
-	The articles table includes the articles themselves.
-	The log table includes one entry for each time a user has accessed the site.
-Use \c news to connect to database.
-running python file:
-	python logorig.py
+## Log Analysis
+This project is all about Log analysis which is apart of FULL STACK WEB DEVELOPMENT COURSE in UDACITY
+## Project Requirements
+	Python3
+   Vagrant
+   VirtualBox
+   psycopg2
+## Environment Setup
+	Install vagrant and virtualBox
+	Download or clone fullstack-nanodegree-vm repository.
+	Download the data from the cloned one.
+	Unzip / extract the file.
+	This contains newsdata.sql file.
 
+## Launching the Virtual Machine:
+    Launch the Vagrant VM inside Vagrant sub-directory in the downloaded fullstack-nanodegree-vm repository using command:
+		$ vagrant up
+	Log into this using the following command:
+		$ vagrant ssh
+	Change the directory to /vagrant with the below command and later check with 'ls' command
+		$ cd /vagrant
+## Setting up the database:
+	Load the data using the command below:
+		$ psql -d news  -f newsdata.sql
+	The database includes three tables:
 
+    authors table - information about the authors of articles.
+    articles table - articles 
+    log table - one entry for each time a user has accessed the site.
 
-		 
+## Connecting to database
+	After making sure that everything went in a correct way give the below comand to connect to database:
+		$ \c news
+	
+## Running python file:
+  python3 log1.py
+	
