@@ -1,30 +1,34 @@
 #!usr/bin/env python3
 import psycopg2
-articles = """select articles.titles,
-           count(*) as n from log,articles
-           where log.status="%200%"
-           group by articles.title
-           order by n desc limit 3"""
+'''article = """select title,count(title) as views
+from articles join log on log.path like concat('%',articles.slug,'%')
+where log.status like '%200%'
+group by articles.title order by views desc limit 3;
+"""
 conn = psycopg2.connect(dbname='news')
 cur = conn.cursor()
-cur.execute(articles)
+cur.execute(article)
 print("     TOP THREE ARTICLES")
 print("Title                                       Views")
-c = cur.fetchall()
-for title, n in c:
-    print(title, n)
+results=cur.fetchall()
+for i in range(len(results)):
+    title=results[i][0]
+    views=results[i][1]
+    print("%s--%d" % (title,views))
 cur.close()
 conn.close()
 
 
-authors = """select authors.name, count(*)as n from articles,
-           authors, log where log.status="%200%" and
+author = """select authors.name, count(*) as n from articles join
+           authors on articles.author=authors.id
+           join log on log.path like concat('%',articles.slug,'%')
+           where log.status like '%200%' and
            authors.id=articles.author
            group by authors.name
-           order by n desc"""
+           order by n desc limit 3"""
 conn = psycopg2.connect(dbname='news')
-cur = cunn.cursor()
-cur.execute(authors)
+cur = conn.cursor()
+cur.execute(author)
 print("       POPULAR AUTHORS")
 print("Author                       Views")
 c = cur.fetchall()
@@ -32,38 +36,34 @@ for a, n in c:
     print(a, n)
 cur.close()
 conn.close()
-
+'''
 conn = psycopg2.connect(dbname='news')
-cur = cunn.cursor()
-t_req = """select count(*) as c,
+cur = conn.cursor()
+total_request = """select count(*) as count,
         date(TIME) as date
-        from log group by date order by c desc"""
-e_req = """select count(*) as c,
+        from log group by date order by count desc"""
+error_request = """select count(*) as count,
         date(TIME) as date
         from log
-        where log.status="%200%"
+        where log.status!='%200%'
         group by date
-        order by c desc"""
-e_perc = """select  t_req.date,
-        round((100.0*e_req.count)/t_req.count,2)
-        as e_per from e_req,
-        t_req where e_req=t_req"""
+        order by count desc"""
+err_perc = """select  total_request.date,
+        round((100.0*error_request.count)/total_request.count,2) as err_prc
+        from error_request,
+        total_request where error_request.date=total_request.date"""
 error = """select to_char(date, 'Mon DD YYYY')
-        as date, e_per
-        from e_perc where e_per>1.0"""
-try:
-    cur.execute(t_req)
-    cur.execute(e_req)
-    cur.execute(e_perc)
-except Exception as e:
-    print(e)
+        as date, err_prc
+        from err_prc where err_prc>1.0"""
+cur.execute(total_request)
+cur.execute(error_request)
+cur.execute(err_perc)
 c = cur.execute(error)
 res = c.fetchall()
 for i in range(len(res)):
     d = res[i][0]
     e = res[i][1]
     print("more number of errors were "
-          "encountered on "d " with " e " percentage")
+          "encountered on "+d+ " with " +e+ " percentage")
 cur.close()
 conn.close()
-
