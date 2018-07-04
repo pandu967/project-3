@@ -15,7 +15,7 @@ results = cur.fetchall()
 for i in range(len(results)):
     title = results[i][0]
     views = results[i][1]
-    print("%s--%d" % (title, views))
+    print(title, views))
 cur.close()
 conn.close()
 
@@ -66,7 +66,7 @@ res = cur.fetchall()
 print('\n more number of errors were encountered on:')
 for i in re:
     d = i[0].strftime('%B %d, %Y')
-    e = str(round(i[1]*100, 1)) + "%" + " errors"
-    print(d + " with " + e)
+    e = str(round(i[1]*100, 1)) 
+    print(d + " with " + e + "percentage")
 cur.close()
 conn.close()
