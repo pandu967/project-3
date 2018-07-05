@@ -1,35 +1,29 @@
 #!usr/bin/env python3
 import psycopg2
-article = """select title,count(title) as views
-           from articles
-           join log on log.path
-           like concat('%',articles.slug,'%')
-           where log.status like '%200%'
-           group by articles.title order by views desc limit 3"""
-conn = psycopg2.connect(dbname='news')
-cur = conn.cursor()
-cur.execute(article)
-print("     TOP THREE ARTICLES")
-print("Title                                       Views")
-results = cur.fetchall()
-for i in range(len(results)):
-    title = results[i][0]
-    views = results[i][1]
-    print(title, views))
-cur.close()
-conn.close()
-
-
-author = """select authors.name, count(*) as n from articles join
-           authors on articles.author=authors.id
-           join log on log.path like concat('%',articles.slug,'%')
-           where log.status like '%200%' and
-           authors.id=articles.author
-           group by authors.name
+articles = """select articles.titles,
+           count(*) as n from log,articles
+           where log.status="%200%"
+           group by articles.title
            order by n desc limit 3"""
 conn = psycopg2.connect(dbname='news')
 cur = conn.cursor()
-cur.execute(author)
+cur.execute(articles)
+print("     TOP THREE ARTICLES")
+print("Title                                       Views")
+c = cur.fetchall()
+for title, n in c:
+    print(title, n)
+cur.close()
+conn.close()
+
+authors = """select authors.name, count(*)as n from articles,
+           authors, log where log.status="%200%" and
+           authors.id=articles.author
+           group by authors.name
+           order by n desc"""
+conn = psycopg2.connect(dbname='news')
+cur = cunn.cursor()
+cur.execute(authors)
 print("       POPULAR AUTHORS")
 print("Author                       Views")
 c = cur.fetchall()
