@@ -6,7 +6,11 @@ This project is all about Log analysis which is apart of FULL STACK WEB DEVELOPM
    VirtualBox
    psycopg2
 ## Environment Setup
-	Install vagrant and virtualBox
+	Install vagrant and virtualBox with following command:
+		sudo apt-get install vagrant
+		sudo apt-get install virtualbox
+	To install python:
+		sudo apt-get install python
 	Download or clone fullstack-nanodegree-vm repository.
 	Download the data from the cloned one.
 	Unzip / extract the file.
