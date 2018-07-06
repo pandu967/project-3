@@ -1,8 +1,8 @@
 #!usr/bin/env python3
 import psycopg2
-articles = """select articles.titles,
+articles = """select articles.title,
            count(*) as n from log,articles
-           where log.status="%200%"
+           where log.status like "%200%"
            group by articles.title
            order by n desc limit 3"""
 conn = psycopg2.connect(dbname='news')
@@ -17,7 +17,7 @@ cur.close()
 conn.close()
 
 authors = """select authors.name, count(*)as n from articles,
-           authors, log where log.status="%200%" and
+           authors, log where log.status like "%200%" and
            authors.id=articles.author
            group by authors.name
            order by n desc"""
