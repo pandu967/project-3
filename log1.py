@@ -60,7 +60,7 @@ res = cur.fetchall()
 print('\n more number of errors were encountered on:')
 for i in re:
     d = i[0].strftime('%B %d, %Y')
-    e = str(round(i[1]*100, 1)) 
+    e = str(round(i[1]*100, 1))
     print(d + " with " + e + "percentage")
 cur.close()
 conn.close()
